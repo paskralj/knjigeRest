@@ -9,29 +9,53 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class for performing business logic operations on Book entities.
+ */
 @Service
 public class BookService {
 
     @Autowired
     private BookRepository bookRepository;
 
-    public List<Book> findAllBooks(){
+    /**
+     * Retrieves all books from the database.
+     *
+     * @return List of all books.
+     */
+    public List<Book> findAllBooks() {
         return bookRepository.findAll();
     }
 
-    public Optional<Book> findBookById(Long id){
+    /**
+     * Retrieves a book by its ID from the database.
+     *
+     * @param id The ID of the book to retrieve.
+     * @return Optional containing the found book, or empty if not found.
+     */
+    public Optional<Book> findBookById(Long id) {
         return bookRepository.findById(id);
     }
 
-    public void addBook(Book book){
+    /**
+     * Adds a new book to the database or updates an existing one.
+     *
+     * @param book The book to add or update.
+     */
+    public void addBook(Book book) {
         bookRepository.save(book);
     }
 
-    public void deleteBookById(Long id){
-        if (bookRepository.findById(id).isPresent()){
+    /**
+     * Deletes a book from the database by its ID.
+     *
+     * @param id The ID of the book to delete.
+     * @throws BookNotFoundException if the book with the given ID does not exist.
+     */
+    public void deleteBookById(Long id) {
+        if (bookRepository.findById(id).isPresent()) {
             bookRepository.deleteById(id);
-        }
-        else throw new BookNotFoundException("Book with id: " + id + " not found!");
+        } else throw new BookNotFoundException("Book with id: " + id + " not found!");
     }
 
 }
